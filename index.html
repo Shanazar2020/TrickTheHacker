@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Don't save direct password</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+      body {
+        background-color: #add8e6;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .column {
+      flex: 1;
+      max-width: 300px;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: white;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: none;
+      background-color: #f1f1f1;
+    }
+
+    input[type="button"] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    input[type="button"]:hover {
+      opacity: 0.8;
+    }
+
+    #encryptButton {
+      background-color: #4caf50;
+    }
+
+    #decryptButton {
+      background-color: #008cba;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing:border-box;
+      border-radius:5px;
+      border:none;
+      background-color:#f1f1f1
+    }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align:center">Trick the hacker</h1>
+    <div class="container">
+      <div class="column">
+        <h2>Encryption</h2>
+        <form id="encryptForm">
+          <label for="encryptText">Text:</label><br />
+          <input type="text" id="encryptText" name="encryptText" placeholder="Text to encrypt" /><br />
+          <label for="encryptKey">Key:</label><br />
+          <input type="text" id="encryptKey" name="encryptKey" placeholder="Encrypt key" /><br /><br />
+          <input type="button" value="Encrypt" id="encryptButton" onclick="encrypt()" />
+        </form>
+        <p>Result:</p>
+        <textarea id="encryptResult" rows="4"></textarea>
+      </div>
+
+      <div class="column">
+        <h2>Decryption</h2>
+        <form id="decryptForm">
+          <label for="decryptText">Text:</label><br />
+          <input type="text" id="decryptText" name="decryptText" placeholder="Text to decrypt" /><br />
+          <label for="decryptKey">Key:</label><br />
+          <input type="text" id="decryptKey" name="decryptKey" placeholder="Decrypt key" /><br /><br />
+          <input type="button" value="Decrypt" id ="decryptButton" onclick ="decrypt()" />
+       </form>
+       <p>Result:</p>
+       <textarea id ="decryptResult" rows ="4"></textarea>
+     </div>
+   </div>
+	<script>
+      const iv = CryptoJS.enc.Utf8.parse("1a2s");
+
+      function encrypt() {
+        const text = document.getElementById("encryptText").value;
+        const key = document.getElementById("encryptKey").value;
+        const encrypted = CryptoJS.AES.encrypt(text, key, { iv: iv });
+        document.getElementById("encryptResult").value = encrypted.toString();
+      }
+
+      function decrypt() {
+        const text = document.getElementById("decryptText").value;
+        const key = document.getElementById("decryptKey").value;
+        const decrypted = CryptoJS.AES.decrypt(text, key, { iv: iv });
+        document.getElementById("decryptResult").value = decrypted.toString(
+          CryptoJS.enc.Utf8
+        );
+      }
+    </script>
+  </body>
+</html>
